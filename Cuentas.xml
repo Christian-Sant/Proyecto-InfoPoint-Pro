@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Cuentas>
+    <!-- Sección de usuarios normales -->
+    <Usuarios>
+        <Usuario>
+            <Nombre>Juan Pérez</Nombre>
+            <UsuarioID>juan123</UsuarioID>
+            <Contrasena>abc123</Contrasena>
+            <Email>juan.perez@example.com</Email>
+        </Usuario>
+        <Usuario>
+            <Nombre>Maria López</Nombre>
+            <UsuarioID>maria456</UsuarioID>
+            <Contrasena>pass456</Contrasena>
+            <Email>maria.lopez@example.com</Email>
+        </Usuario>
+    </Usuarios>
+
+    <!-- Sección de administradores -->
+    <Administradores>
+        <Administrador>
+            <Nombre>Carlos Gómez</Nombre>
+            <UsuarioID>admin1</UsuarioID>
+            <Contrasena>admin123</Contrasena>
+            <Email>carlos.gomez@example.com</Email>
+        </Administrador>
+        <Administrador>
+            <Nombre>Ana Torres</Nombre>
+            <UsuarioID>admin2</UsuarioID>
+            <Contrasena>admin456</Contrasena>
+            <Email>ana.torres@example.com</Email>
+        </Administrador>
+    </Administradores>
+</Cuentas>
