@@ -5,6 +5,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.UIManager;
 
 public class Splash extends JDialog {
 
@@ -22,6 +23,15 @@ public class Splash extends JDialog {
     };
 
     public Splash() {
+    	try {
+            if (UIManager.getLookAndFeel().getName().equals("Metal")) {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            } else {
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         setTitle("Cargando...");
         setSize(400, 200);
         setLocationRelativeTo(null);
