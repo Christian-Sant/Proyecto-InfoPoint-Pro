@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 public class BackOffice extends JFrame {
@@ -32,15 +31,6 @@ public class BackOffice extends JFrame {
 	 * Create the frame.
 	 */
 	public BackOffice() {
-		try {
-            if (UIManager.getLookAndFeel().getName().equals("Metal")) {
-                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            } else {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 790, 512);
         setLocationRelativeTo(null);
