@@ -1,6 +1,5 @@
 package ProyectoInfoPointPro;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.net.URL;
@@ -12,9 +11,7 @@ public class Login extends JDialog {
     private static final long serialVersionUID = 1L;
     private JTextField textFieldUsuario;
     private JPasswordField passwordField;
-    private boolean admin;
-    
-    private String admins[] = {"1","2","3"};
+    private static boolean estadoBotonAdmin = false;
     private JTextField textFieldID;
     private JLabel lblId;
     public static void main(String[] args) {
@@ -33,20 +30,10 @@ public class Login extends JDialog {
     }
 
     public Login() {
-    	try {
-            if (UIManager.getLookAndFeel().getName().equals("Metal")) {
-                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            } else {
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
         setBounds(100, 100, 450, 300);
         setLocationRelativeTo(null);
         setTitle("Inicio de Sesión");
         getContentPane().setLayout(null);
-        admin = false;
         JPanel contentPanel = new JPanel();
         contentPanel.setBounds(0, 0, 434, 232);
         contentPanel.setLayout(null);
@@ -71,7 +58,6 @@ public class Login extends JDialog {
         passwordField.setBounds(184, 146, 146, 30);
         contentPanel.add(passwordField);
 
-        // Imagen de fondo (opcional)
         JLabel lblImagen = new JLabel("");
         URL url = getClass().getResource("/ProyectoInfoPointPro/resources/inicio.png");
         if (url != null) {
@@ -83,8 +69,18 @@ public class Login extends JDialog {
         JButton btnAdmin = new JButton("Administrador");
         btnAdmin.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		lblId.setVisible(true);
-        		textFieldID.setVisible(true);
+        		if(!estadoBotonAdmin) {
+        			lblId.setVisible(true);
+            		textFieldID.setVisible(true);
+            		estadoBotonAdmin = true;
+            		btnAdmin.setText("Administrador");
+        		}
+        		else {
+        			lblId.setVisible(false);
+            		textFieldID.setVisible(false);
+            		estadoBotonAdmin = false;
+            		btnAdmin.setText("Usuario");
+        		}
         	}
         });
         btnAdmin.setBounds(274, 0, 160, 23);
@@ -102,7 +98,6 @@ public class Login extends JDialog {
         contentPanel.add(textFieldID);
         textFieldID.setVisible(false);
 
-        // Panel de botones
         JPanel buttonPane = new JPanel();
         buttonPane.setBounds(0, 228, 434, 33);
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -120,7 +115,7 @@ public class Login extends JDialog {
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                dispose(); // cerrar login
+                dispose();
             }
         });
         buttonPane.add(cancelButton);
@@ -129,51 +124,20 @@ public class Login extends JDialog {
     private void loginUsuario() {
         String usuario = textFieldUsuario.getText();
         String contrasena = new String(passwordField.getPassword());
+        String id = new String(textFieldID.getText());
 
-        if (usuario.equals("usuario") && contrasena.equals("12345")) {
-            setVisible(false); // cerrar login
-
-            final Splash splash = new Splash();
-            splash.setVisible(true);
-
-            // Hilo para animar barra de progreso
-            Thread hilo = new Thread(new Runnable() {
-                public void run() {
-                    for (int i = 0; i <= 100; i++) {
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-
-                        final int porcentaje = i;
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                splash.iniciarCarga(porcentaje);
-                            }
-                        });
-                    }
-
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            splash.dispose(); 
-                            // Abrir tu aplicación principal
-                            if(admin) {
-                            	BackOffice panelAdministrador = new BackOffice();
-                            	panelAdministrador.setVisible(true);
-                            	JOptionPane.showMessageDialog(null, "Carga completada. Aquí abriría el panel Admin.");
-                            }
-                            else {
-                            	AplicacionBibliotecaMunicipal app = new AplicacionBibliotecaMunicipal();
-                                app.setVisible(true);
-                                JOptionPane.showMessageDialog(null, "Carga completada. Aquí abriría la App.");
-                            }
-                        }
-                    });
-                }
-            });
-            hilo.start();
-        } else {
+        if (usuario.equals("usuario") && contrasena.equals("12345") && id.equals("22")) {
+            
+            setVisible(false);
+        	BackOffice backOffice = new BackOffice();
+        	backOffice.setVisible(true);
+        } 
+        else if(usuario.equals("usuario") && contrasena.equals("12345")) {
+        	setVisible(false); 
+            Biblioteca biblioteca = new Biblioteca();
+            biblioteca.setVisible(true);
+        }
+        else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }

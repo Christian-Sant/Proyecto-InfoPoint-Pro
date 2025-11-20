@@ -12,7 +12,7 @@ public class Splash extends JDialog {
     private static final long serialVersionUID = 1L;
     private JProgressBar barra;
     private JLabel lblMensaje;
-    private int index = 0; // índice para los mensajes dinámicos
+    private int index = 0; 
 
     private final String[] mensajes = {
         "Conectando...",
@@ -35,7 +35,7 @@ public class Splash extends JDialog {
         setTitle("Cargando...");
         setSize(400, 200);
         setLocationRelativeTo(null);
-        setModal(false);  // No bloquea la ejecución
+        setModal(false);  
         setLayout(new BorderLayout());
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -55,7 +55,6 @@ public class Splash extends JDialog {
     public void iniciarCarga(int porcentaje) {
         barra.setValue(porcentaje);
 
-        // Cambiar mensaje cada 25%
         if (porcentaje % 25 == 0 && index < mensajes.length) {
             lblMensaje.setText(mensajes[index]);
             index++;
