@@ -14,6 +14,7 @@ public class Login extends JDialog {
     private static boolean estadoBotonAdmin = false;
     private JTextField textFieldID;
     private JLabel lblId;
+    private static boolean admin;
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -30,6 +31,15 @@ public class Login extends JDialog {
     }
 
     public Login() {
+    	try {
+            if (UIManager.getLookAndFeel().getName().equals("Metal")) {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            } else {
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         setBounds(100, 100, 450, 300);
         setLocationRelativeTo(null);
         setTitle("Inicio de Sesión");
@@ -106,7 +116,7 @@ public class Login extends JDialog {
         JButton okButton = new JButton("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                loginUsuario();
+                login();
             }
         });
         buttonPane.add(okButton);
@@ -121,24 +131,63 @@ public class Login extends JDialog {
         buttonPane.add(cancelButton);
     }
 
-    private void loginUsuario() {
+    private void login() {
         String usuario = textFieldUsuario.getText();
         String contrasena = new String(passwordField.getPassword());
         String id = new String(textFieldID.getText());
-
+        boolean permitido = false;
+        admin = false;
         if (usuario.equals("usuario") && contrasena.equals("12345") && id.equals("22")) {
-            
-            setVisible(false);
-        	BackOffice backOffice = new BackOffice();
-        	backOffice.setVisible(true);
+        	admin = true;
+        	permitido = true;
         } 
         else if(usuario.equals("usuario") && contrasena.equals("12345")) {
-        	setVisible(false); 
-            Biblioteca biblioteca = new Biblioteca();
-            biblioteca.setVisible(true);
+        	
+            permitido = true;
         }
         else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+        if(permitido) {
+        	setVisible(false);
+        	splash();
+        }
+    }
+    private void splash() {
+    	final Splash splash = new Splash();
+        splash.setVisible(true);
+        Thread hilo = new Thread(new Runnable() {
+            public void run() {
+                for (int i = 0; i <= 100; i++) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    final int porcentaje = i;
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            splash.iniciarCarga(porcentaje);
+                        }
+                    });
+                }
+
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        splash.dispose();
+                        if(admin) {
+                    		BackOffice backOffice = new BackOffice();
+                    		backOffice.setVisible(true);
+                    	}
+                    	else {
+                        	Biblioteca biblioteca = new Biblioteca();
+                        	biblioteca.setVisible(true);
+                    	}
+                    }
+                });
+            }
+        });
+        hilo.start();
     }
 }
