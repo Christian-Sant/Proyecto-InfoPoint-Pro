@@ -77,5 +77,13 @@ public class BackOffice extends JFrame {
 		JLabel infoPersonal = new JLabel("");
 		infoPersonal.setBounds(130, 80, 644, 40);
 		infoEmpleado.add(infoPersonal);
+		
+		JPanel panelAdministrador = new JPanel();
+		panelAdministrador.setBounds(10, 131, 754, 222);
+		contentPane.add(panelAdministrador);
+		
+		JPanel panelCoordinardor = new JPanel();
+		panelCoordinardor.setBounds(10, 362, 754, 222);
+		contentPane.add(panelCoordinardor);
 	}
 }
